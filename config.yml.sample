@@ -1,0 +1,19 @@
+# vim: set syntax=yaml:
+
+# file that has the feed urls (one url per line)
+feeds_file: feeds.txt
+
+# where the new posts should be written
+export_to: [ twitter, html ]
+
+# database where to save current state
+db: feeds_db
+
+# twitter app authorization
+twitter_consumer_key: YOUR_CONSUMER_KEY
+twitter_consumer_secret: YOUR_CONSUMER_SECRET
+twitter_oauth_token: YOUR_OAUTH_TOKEN
+twitter_oauth_token_secret: YOUR_OAUTH_TOKEN_SECRET
+
+# html file to update with new posts
+html_file: feeds.html
