@@ -4,6 +4,8 @@ GEM
     activesupport (3.1.12)
       multi_json (~> 1.0)
     bson (1.8.5)
+    bson_ext (1.8.5)
+      bson (~> 1.8.5)
     builder (3.2.0)
     curb (0.7.18)
     faraday (0.8.7)
@@ -42,6 +44,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   feedzirra
   mongo
   twitter
