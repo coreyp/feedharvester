@@ -2,6 +2,7 @@
 
 # vim: set ts=2 sw=2 et:
 
+require 'bundler/setup'
 require 'twitter'
 require 'feedzirra'
 require 'yaml'
