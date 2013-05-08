@@ -47,10 +47,14 @@ private
     fresh_feed = Feedzirra::Feed.update(feed)
     if !fresh_feed.new_entries.empty?
       fresh_feed.new_entries.each do |entry|
-        text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
-        #puts("  " + text)
+        text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"
+        puts("  " + text)
         if @config["export_to"].include?("twitter")
-          Twitter.update(text)
+          begin
+            Twitter.update(text)
+          rescue
+            puts("  error sending data")
+          end
         end
       end
     else
