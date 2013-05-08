@@ -1,5 +1,4 @@
 config.yml
-Gemfile.lock
 *.gem
 *.rbc
 .bundle
