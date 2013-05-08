@@ -65,7 +65,7 @@ private
     doc = coll.find("url" => url).to_a
     feed = nil
     if !doc.empty?
-      feed = YAML.load(doc[0]["data"])
+      feed = YAML.load(doc[0]["data"].to_s)
     end
     feed
   end
