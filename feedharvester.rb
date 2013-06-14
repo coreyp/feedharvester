@@ -7,8 +7,11 @@ require 'twitter'
 require 'feedzirra'
 require 'yaml'
 require 'mongo'
+require 'pinboard'
 
 include Mongo
+
+posts = Pinboard::Post.all(:username => '', :password => '')
 
 class FeedHarvester
   def initialize
@@ -50,11 +53,21 @@ private
 #        text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"
         text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
         puts("  " + text)
+        pbtitle = "#{entry.title}"
+        pbsummary = "#{entry.summary}"
+        pburl = "#{entry.url}"
         if @config["export_to"].include?("twitter")
           begin
             Twitter.update(text)
           rescue
-            puts("  error sending data")
+            puts("  error sending twitter data")
+          end
+        end
+        if @config["export_to"].include?("pinbd")
+          begin
+            pinboard.add(:url => pburl, :description => pbtitle, :tag => 'wib', :extended => pbsummary)
+          rescue
+            puts("  error sending pinboard data")
           end
         end
       end
