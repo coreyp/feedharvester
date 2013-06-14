@@ -14,6 +14,8 @@ test/version_tmp
 tmp
 feeds.txt
 feeds.html
+testtwitter.rb
+livefeeds.rb
 
 # YARD artifacts
 .yardoc

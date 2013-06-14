@@ -7,11 +7,12 @@ require 'twitter'
 require 'feedzirra'
 require 'yaml'
 require 'mongo'
-require 'pinboard'
+# require 'pinboard'
 
 include Mongo
 
-posts = Pinboard::Post.all(:username => '', :password => '')
+# not ready for prime time
+# posts = Pinboard::Post.all(:username => 'username', :password => 'password')
 
 class FeedHarvester
   def initialize
@@ -19,10 +20,10 @@ class FeedHarvester
 
     if @config["export_to"].include?("twitter")
       Twitter.configure do |c|
-        c.consumer_key = @config["twitter_consumer_key"]
-        c.consumer_secret = @config["twitter_consumer_secret"]
-        c.oauth_token = @config["twitter_oauth_token"]
-        c.oauth_token_secret = @config["twitter_oauth_token_secret"]
+        c.consumer_key = ""
+        c.consumer_secret = ""
+        c.oauth_token = ""
+        c.oauth_token_secret = ""
       end
     end
 
@@ -50,24 +51,14 @@ private
     fresh_feed = Feedzirra::Feed.update(feed)
     if !fresh_feed.new_entries.empty?
       fresh_feed.new_entries.each do |entry|
-#        text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"
+#        text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"   #sanitize was broken on UTF-8BIT
         text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
         puts("  " + text)
-        pbtitle = "#{entry.title}"
-        pbsummary = "#{entry.summary}"
-        pburl = "#{entry.url}"
         if @config["export_to"].include?("twitter")
           begin
             Twitter.update(text)
           rescue
             puts("  error sending twitter data")
-          end
-        end
-        if @config["export_to"].include?("pinbd")
-          begin
-            pinboard.add(:url => pburl, :description => pbtitle, :tag => 'wib', :extended => pbsummary)
-          rescue
-            puts("  error sending pinboard data")
           end
         end
       end
