@@ -52,11 +52,13 @@ private
     if !fresh_feed.new_entries.empty?
       fresh_feed.new_entries.each do |entry|
 #       text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"   #sanitize was broken on UTF-8BIT
-        text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
+#       text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
+        text = "#{entry.title}: #{entry.url}"
         puts("  " + text)
         if @config["export_to"].include?("twitter")
           begin
             Twitter.update(text)
+            sleep(15)
           rescue
             puts("  error sending twitter data")
           end
