@@ -7,18 +7,12 @@ require 'twitter'
 require 'feedzirra'
 require 'yaml'
 require 'mongo'
-# require 'pinboard' # crap gem
-# require 'buffer' # also a crap gem
+# require 'pinboard' # undercooked
+# require 'buffer' # also missing functionality
 require 'addressable/uri'
 require 'buff'
 
 include Mongo
-
-# not ready for prime time
-# posts = Pinboard::Post.all(:username => 'username', :password => 'password')
-
-# client = Buff::Client.new(options['access_token'])
-# id = client.profiles[options['profile_index'].to_i].id
 
 class FeedHarvester
   def initialize
@@ -59,7 +53,6 @@ private
       fresh_feed.new_entries.each do |entry|
 #       text = "[#{fresh_feed.title.sanitize}] #{entry.title.sanitize}: #{entry.url}"   #sanitize was broken on UTF-8BIT
         text = "[#{fresh_feed.title}] #{entry.title}: #{entry.url}"
-#       btext = "#{entry.title} #{entry.url}"
         puts("  " + text)
         if @config["export_to"].include?("twitter")
           begin
@@ -74,9 +67,7 @@ private
             client = Buff::Client.new(options['access_token'])
             id = client.profiles[options['profile_index'].to_i].id
             response = client.create_update(body: {text: text, profile_ids: [ id ] } )
-            Buff::Client::Update.response
-            # client.create_update(body: {text: (btext), profile_ids: [ id ] } )
-            # client.updates :post, 'updates/create', :text => (text), :profile_ids => ['518d583bead9b8f16a000026']
+	    puts response
           rescue
             puts("  error sending buffer data")
           end

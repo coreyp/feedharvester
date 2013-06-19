@@ -16,6 +16,8 @@ feeds.txt
 feeds.html
 testtwitter.rb
 livefeeds.rb
+Gemfile.lock
+.DS_Store
 
 # YARD artifacts
 .yardoc
